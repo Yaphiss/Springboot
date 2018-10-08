@@ -1,0 +1,8 @@
+.idea
+./logs
+*.DS_store
+/build
+/frontier
+.gradle
+/logs/*.log
+.idea/*.xml

@@ -1,0 +1,59 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.0.2.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+bootJar {
+    baseName = 'gs-spring-boot'
+    version =  '0.1.0'
+}
+
+// 从哪里找jar包
+repositories {
+    // 从build.gradle文件所在的目录下的libs目录中获取
+    flatDir {dirs 'libs'}
+    // 从maven仓库中获取
+    maven {url "https://repo.boundlessgeo.com/main/"}
+    // 从官方仓库中获取，速度比较慢
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("log4j:log4j:1.2.17")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
+    compile("org.apache.httpcomponents:httpclient:4.5.2")
+    compile("org.apache.httpcomponents:fluent-hc:4.5.2")
+    compile("org.springframework.boot:spring-boot-starter-aop")
+    compile('org.springframework.boot:spring-boot-starter-data-redis')
+    compile group: 'org.json', name: 'json', version: '20090211'
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.49'
+    compile group: 'org.aspectj', name: 'aspectjweaver', version: '1.8.5'
+    compile group: 'org.projectlombok', name: 'lombok-maven', version: '1.18.0.0'
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
+
+// 解析编码
+allprojects {
+    repositories {
+        jcenter()
+    }
+
+    tasks.withType(JavaCompile){
+        options.encoding = "UTF-8"
+    }
+}
